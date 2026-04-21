@@ -196,6 +196,527 @@ int main ()
                                 }
                             }
                         }
+
+                        // ------- OPTION 3: SEARCH MEMBER -------
+                        else if (adminOption == "3")
+                        {
+                            system("cls");
+                            cout<<"Enter name to search: ";
+                            string searchName;
+                            getline(cin, searchName);
+
+                            bool found = false;
+                            int foundIndex = -1;
+                            for (int i = 0; i < index; i++)
+                            {
+                                if (nameArray[i] == searchName)
+                                {
+                                    found = true;
+                                    foundIndex = i;
+                                }
+                            }
+                            if (found == false)
+                            {
+                                cout<<"Record not found for name: " << searchName <<endl;
+                            }
+                            else
+                            {
+                                cout<<"--- Member Found ---"<<endl;
+                                cout<<"ID         : " << foundIndex << endl;
+                                cout<<"Name       : " << nameArray[foundIndex] << endl;
+                                cout<<"Age        : " << ageArray[foundIndex] << endl;
+                                cout<<"Gender     : " << genderArray[foundIndex] << endl;
+                                cout<<"Contact    : " << contactArray[foundIndex] << endl;
+                                cout<<"Plan       : " << planArray[foundIndex] << endl;
+                                cout<<"Fee        : Rs." << feeArray[foundIndex] << endl;
+                                cout<<"Paid       : " << (feePaidArray[foundIndex] ? "Yes" : "No") << endl;
+                                cout<<"Attendance : " << attendanceArray[foundIndex] << " days" << endl;
+                                cout<<"Trainer    : " << trainerArray[foundIndex] << endl;
+                                cout<<"Workout    : " << workoutArray[foundIndex] << endl;
+                            }
+                        }
+
+                        // ------- OPTION 4: UPDATE MEMBER -------
+                        else if (adminOption == "4")
+                        {
+                            system("cls");
+                            cout<<"Enter Member ID to update: ";
+                            int id;
+                            cin >> id;
+                            cin.ignore();
+
+                            if (id < 0 || id >= index)
+                            {
+                                cout<<"Invalid Member ID." <<endl;
+                            }
+                            else 
+                            {
+                                 cout<<"--- Old Record ---" << endl;
+                                cout<<"Name   : " << nameArray[id] << endl;
+                                cout<<"Contact: " << contactArray[id] << endl;
+                                cout<<"Plan   : " << planArray[id] << endl;
+                                cout<<"Trainer: " << trainerArray[id] << endl;
+                                cout<<"Workout: " << workoutArray[id] << endl;
+
+                                cout<< endl << "What to update ?" << endl;
+                                cout<< "1.Name" << endl;
+                                cout<< "2.Contact" << endl;
+                                cout<< "3.Plan" << endl;
+                                cout<< "4.Trainer" << endl;
+                                cout<< "5.Workout Plan" << endl;
+                                cout<<"Choose: ";
+                                string upChoice;
+                                cin >> upChoice;
+                                cin.ignore();
+
+                                if (upChoice == "1")
+                                {
+                                    cout << "Enter new name: ";
+                                    getline(cin, nameArray[id]);
+                                    historyArray[historyIndex % 20] = " Admin updated name of ID " + nameArray[id];
+                                    historyIndex++;
+                                    cout << "Name updated ." << endl;
+                                }
+                                else if (upChoice == "2")
+                                {
+                                    cout << "Enter new contact:";
+                                    getline(cin, contactArray[id]);
+                                    historyArray[historyIndex % 20] = "Admin updated contact of " + nameArray[id];
+                                    historyIndex++;
+                                    cout << "Contact updated ." << endl;
+                                }
+                                else if (upChoice == "3")
+                                {
+                                    cout << "Available Plans :" << endl;
+                                    for (int p = 0; p < planIndex; p++)
+                                    {
+                                        cout << p + 1 << "  " << planNameArray[p]
+                                             << "  Rs." << planFeeArray[p] << endl;
+                                    }
+                                    cout << "Select plan (1 to " << planIndex << ") : ";
+                                    int pc;
+                                    cin >> pc;
+                                    cin.ignore();
+                                    if (pc >= 1 && pc <= planIndex)
+                                    {
+                                        planArray[id] = planNameArray[pc - 1];
+                                        feeArray[id] = planFeeArray[pc - 1];
+                                        feePaidArray[id] = false;
+                                        historyArray[historyIndex % 20] = "Admin updated plan of " + nameArray[id];
+                                        historyIndex++;
+                                        cout << "Plan updated." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Invalid plan choice." << endl;
+                                    }
+                                }
+                                else if (upChoice == "4")
+                                {
+                                    cout << "Enter trainer name: ";
+                                    getline(cin, trainerArray[id]);
+                                    historyArray[historyIndex % 20] = " Admin assigned trainer to " + nameArray[id];
+                                    historyIndex++;
+                                    cout << " Trainer assigned." << endl;
+                                }
+                                else if (upChoice == "5")
+                                {
+                                    cout << " Enter workout plan : ";
+                                    getline(cin, workoutArray[id]);
+                                    historyArray[historyIndex % 20] = " Admin updated workout for " + nameArray[id];
+                                    historyIndex++;
+                                    cout << " Workout plan updated." << endl;
+                                }
+                                else
+                                {
+                                    cout << " Invalid choice." << endl;
+                                }
+                            }
+                        }
+
+                        // ----- OPTION 5: DELETE MEMBER -----
+                        else if (adminOption == "5")
+                        {
+                            system("cls");
+                            cout<<"Enter Member ID to delete : ";
+                            int id;
+                            cin >> id;
+                            cin.ignore();
+
+                            if (id < 0 || id >= index)
+                            {
+                                cout<<"Invalid Member ID." <<endl;
+                            }
+                            else
+                            {
+                                string deletedName = nameArray[id];
+
+                                // Shift all arrays left
+                                for (int i = id; i < index - 1; i++)
+                                {
+                                     nameArray[i]= nameArray[i+1];
+                                    ageArray[i]= ageArray[i+1];
+                                    genderArray[i]= genderArray[i+1];
+                                    contactArray[i]= contactArray[i+1];
+                                    planArray[i]= planArray[i+1];
+                                    feeArray[i]= feeArray[i+1];
+                                    feePaidArray[i]= feePaidArray[i+1];
+                                    attendanceArray[i]= attendanceArray[i+1];
+                                    trainerArray[i]= trainerArray[i+1];
+                                    workoutArray[i]= workoutArray[i+1];
+                                }
+                                index--;
+
+                                historyArray[historyIndex % 20] = "Amin deleted member: " + deletedName;
+                                historyIndex++;
+                                cout<<" Record of " << deletedName << " deleted ." <<endl;
+                            }
+                        }
+
+                        // ------- OPTION 6: ADD NEW PLAN -------
+                        else if (adminOption == "6")
+                        {
+                            system("cls");
+                            if (planIndex >= totalPlans)
+                            {
+                                cout<<"Plan limit reached(max 10). Cannot add more." << endl;
+                            }
+                            else
+                            {
+                                cout<<"--- Add New Plan ---" << endl;
+                                cout<<"Enter plan name: ";
+                                getline(cin, planNameArray[planIndex]);
+                                cout<<"Enter fee: Rs.";
+                                cin >> planFeeArray[planIndex];
+                                cout<<"Enter duration (days): ";
+                                cin >> planDurationArray[planIndex];
+                                cin.ignore();
+
+                                historyArray[historyIndex % 20]="Admin added new plan: " + planNameArray[planIndex];
+                                historyIndex++;
+                                cout<<" Plan added successfully." << endl;
+                                planIndex++;
+                            }
+                        }
+
+                        // ------- OPTION 7: UPDATE PLAN -------
+                        else if (adminOption == "7")
+                        {
+                            system("cls");
+                            cout<<"--- Current Plans ---"<<endl;
+                            for (int p = 0; p < planIndex; p++)
+                            {
+                                cout << p << " " << planNameArray[p]
+                                     << " Rs." << planFeeArray[p]
+                                     << "  (" << planDurationArray[p] << " days)" <<endl;
+                            }
+                            cout<<"Enter plan index to update: ";
+                            int pIdx;
+                            cin >> pIdx;
+                            cin.ignore();
+
+                             if (pIdx<0 || pIdx >= planIndex)
+                            {
+                                cout<<" Invalid plan index." << endl;
+                            }
+                            else
+                            {
+                                string oldName=planNameArray[pIdx];
+                                cout<<"1. Update Name:" << endl;
+                                cout<<"2. Update Fee:" << endl;
+                                cout<<"3. Update Duration:" << endl;
+                                cout<<"Choose : ";
+                                string pChoice;
+                                cin >> pChoice;
+                                cin.ignore();
+
+                                if (pChoice=="1")
+                                {
+                                    cout << "Enter new name: ";
+                                    getline(cin, planNameArray[pIdx]);
+                                    // Update all members using this plan
+                                    for (int i=0; i<index; i++)
+                                    {
+                                        if (planArray[i]==oldName)
+                                        {
+                                            planArray[i]=planNameArray[pIdx];
+                                        }
+                                    }
+                                    cout<<" Plan name updated." << endl;
+                                }
+                                else if ( pChoice == "2" )
+                                {
+                                    cout<<"Enter new fee: Rs.";
+                                    cin >> planFeeArray[pIdx];
+                                    cin.ignore();
+                                    // Update all members using this plan
+                                    for (int i=0; i<index; i++)
+                                    {
+                                        if ( planArray[i] == oldName )
+                                        {
+                                            feeArray[i] = planFeeArray[pIdx];
+                                            feePaidArray[i] = false;
+                                        }
+                                    }
+                                    cout<<" Plan fee updated." << endl;
+                                }
+                                else if ( pChoice == "3" )
+                                {
+                                    cout<<"Enter new duration (days): ";
+                                    cin >> planDurationArray[pIdx];
+                                    cin.ignore();
+                                    cout<<"Plan duration updated. " << endl;
+                                }
+                                else
+                                {
+                                    cout << " Invalid choice." << endl;
+                                }
+
+                                historyArray [historyIndex % 20] = "Admin updated plan: "+ oldName;
+                                historyIndex++;
+                            }    
+                        }
+
+                        // ------- OPTION 8: DELETE PLAN -------
+                        else if (adminOption == "8")
+                        {
+                            system("cls");
+                            cout<<"--- Currents Plans ---" <<endl;
+                            for (int p = 0; p < planIndex; p++)
+                            {
+                                cout << p << " " << planNameArray[p] << endl;
+                            }
+                            cout<<"Enter plan index to delete: ";
+                            int pIdx;
+                            cin >> pIdx;
+                            cin.ignore();
+
+                            if (pIdx < 0 || pIdx >= planIndex)
+                            {
+                                cout << "Invalid plan Index. "<< endl;
+                            }
+                            else
+                            {
+                                 string deletedPlan=planNameArray[pIdx];
+
+                                // Shift plans left
+                                for (int i=pIdx; i<planIndex - 1; i++)
+                                {
+                                    planNameArray[i]=planNameArray[i + 1];
+                                    planFeeArray[i]=planFeeArray[i + 1];
+                                    planDurationArray[i]=planDurationArray[i + 1];
+                                }
+                                planIndex--;
+
+                                // Reset members who had this plan
+                                for (int i=0; i<index; i++)
+                                {
+                                    if (planArray[i]==deletedPlan)
+                                    {
+                                        planArray[i] = " None";
+                                        feeArray[i] = 0;
+                                        feePaidArray[i] = false;
+                                    }
+                                }
+
+                                historyArray[historyIndex % 20] = " Admin deleted plan: " + deletedPlan;
+                                historyIndex++;
+                                cout << "Plan deleted. " << endl;
+                            }
+                        }
+
+                        // ------- OPTION 9: MARK ATTENDANCE -------
+                        else if (adminOption == "9")
+                        {
+                            system("cls");
+                            cout<<"Enter Member ID to mark attendance: ";
+                            int id;
+                            cin >> id;
+                            cin.ignore();
+
+                            if (id < 0 || id >= index)
+                            {
+                                cout<<"Invalid Member ID."<<endl;
+                            }
+                            else 
+                            {
+                                attendanceArray[id]++;
+                                historyArray[historyIndex % 20] = "Admin marked attendance for " + nameArray[id];
+                                historyIndex++;
+                                cout << "Attendance recorded for " << nameArray[id]
+                                     << ". Total : " << attendanceArray[id] << " days." <<endl;
+                            }
+                        }
+
+                        // ------- OPTION 10: VIEW ALL ATTENDANCE -------
+                        else if (adminOption == "10")
+                        {
+                            system("cls");
+                            cout<<" --- Attendance Report ---" <<endl;
+                            cout<<"Name\t\tDays Attended"<<endl;
+                            cout<<" -------------------------"<<endl;
+                            for (int i = 0; i < index; i++)
+                            {
+                                if (nameArray[i] != "")
+                                {
+                                    cout<< nameArray[i] << "\t\t" << attendanceArray[i] <<endl;
+                                }
+                            }
+                        }
+
+                        // ------- OPTION 11: RECORD PAYMENT -------
+                        else if (adminOption == "11")
+                        {
+                            system("cls");
+                            cout<<"Enter Member ID: ";
+                            int id;
+                            cin >> id;
+                            cin.ignore();
+
+                            if (id < 0 || id >= index)
+                            {
+                                cout<<"Invalid Member ID." <<endl;
+                            }
+                            else if (planArray[id] == "None")
+                            {
+                                cout<<"Member has no plan selected."<<endl;
+                            }
+                            else
+                            {
+                                feePaidArray[id] = true;
+                                historyArray[historyIndex % 20] = "Payment received from " + nameArray[id];
+                                historyIndex++;
+                                cout << "Payment of Rs." << feeArray[id]
+                                     << " recorded for " << nameArray[id] << "." <<endl;
+                            }
+                        }
+
+                        // ------- OPTION 12: VIEW PAYMENT RECORDS -------
+                        else if (adminOption == "12")
+                        {
+                               system("cls");
+                            cout<<"--- Payment Records ---" <<endl;
+                            cout<<" Name\t\tPlan\t\tFee\t\tStatus " <<endl;
+                            cout<<"-----------------------------------------------" << endl;
+                            int paidCount=0;
+                            int unpaidCount=0;
+                            for (int i=0; i<index; i++)
+                            {
+                                if ( nameArray [i] != "")
+                                {
+                                    cout << nameArray [i] << "\t\t" << planArray[i] << "\t\tRs."
+                                         << feeArray [i] << "\t\t"
+                                         << (feePaidArray [i] ? "PAID" : "UNPAID") << endl;
+                                    if (feePaidArray [i] == true)
+                                        paidCount++;
+                                    else
+                                        unpaidCount++;
+                                }
+                            }
+                            cout << "-----------------------------------------------" << endl;
+                            cout << "Total Paid  : " << paidCount << endl;
+                            cout << "Total Unpaid: " << unpaidCount << endl;
+                        }
+
+                        // ------- OPTION 13: SORT MEMBERS -------
+                        else if (adminOption == "13")
+                        {
+                            system("cls");
+                            cout<<" Sort by :" << endl;
+                            cout<<"1. Name" << endl;
+                            cout<<"2. Fee" << endl;
+                            cout<<"3. Attendance" << endl;
+                            cout<<"Choose: ";
+                            string sortBy;
+                            cin >> sortBy;
+                            cout<<" Order :" << endl;
+                            cout<<"1. Ascending" << endl;
+                            cout<<"2. Descending" << endl;
+                            cout<<"Choose: ";
+                            string order;
+                            cin >> order;
+                            cin.ignore();
+
+                            // Bubble sort on parallel arrays
+                            for (int i=0; i<index-1; i++)
+                            {
+                                for (int j=0; j<index-i-1; j++)
+                                {
+                                    bool doSwap = false;
+
+                                    if (sortBy == "1") // sort by name
+                                    {
+                                        if (order == "1" && nameArray[j] > nameArray[j + 1])
+                                            doSwap = true;
+                                        if (order == "2" && nameArray[j] < nameArray[j + 1])
+                                            doSwap = true;
+                                    }
+                                    else if (sortBy == "2") // sort by fee
+                                    {
+                                        if (order == "1" && feeArray[j] > feeArray[j + 1])
+                                            doSwap = true;
+                                        if (order == "2" && feeArray[j] < feeArray[j + 1])
+                                            doSwap = true;
+                                    }
+                                    else if (sortBy == "3") // sort by attendance
+                                    {
+                                        if (order == "1" && attendanceArray[j] > attendanceArray[j + 1])
+                                            doSwap = true;
+                                        if (order == "2" && attendanceArray[j] < attendanceArray[j + 1])
+                                            doSwap = true;
+                                    }
+
+                                    if (doSwap == true)
+                                    {
+                                        // Manual swap of all parallel arrays
+                                        string tempName=nameArray[j];
+                                        nameArray[j]=nameArray[j+1];
+                                        nameArray[j+1]=tempName;
+
+                                        int tempAge=ageArray[j];
+                                        ageArray[j]=ageArray[j+1];
+                                        ageArray[j+1]=tempAge;
+
+                                        string tempGender=genderArray[j];
+                                        genderArray[j]=genderArray[j+1];
+                                        genderArray[j+1]=tempGender;
+
+                                        string tempContact=contactArray[j];
+                                        contactArray[j]=contactArray[j+1];
+                                        contactArray[j+1]=tempContact;
+
+                                        string tempPlan=planArray[j];
+                                        planArray[j]=planArray[j+1];
+                                        planArray[j+1]=tempPlan;
+
+                                        float tempFee=feeArray[j];
+                                        feeArray[j]=feeArray[j+1];
+                                        feeArray[j+1]=tempFee;
+
+                                        bool tempPaid=feePaidArray[j];
+                                        feePaidArray[j]=feePaidArray[j+1];
+                                        feePaidArray[j+1]=tempPaid;
+
+                                        int tempAttend=attendanceArray[j];
+                                        attendanceArray[j]=attendanceArray[j+1];
+                                        attendanceArray[j+1]=tempAttend;
+
+                                        string tempTrainer=trainerArray[j];
+                                        trainerArray[j]=trainerArray[j+1];
+                                        trainerArray[j+1]=tempTrainer;
+
+                                        string tempWorkout=workoutArray[j];
+                                        workoutArray[j]= workoutArray[j+1];
+                                        workoutArray[j+1]=tempWorkout;
+                                    }
+                                }
+                            }
+
+                            historyArray[historyIndex % 20]=" Admin sorted member list";
+                            historyIndex++;
+                            cout << " Members sorted successfully." << endl;
+                        }
+
                     }
                 }
             }
