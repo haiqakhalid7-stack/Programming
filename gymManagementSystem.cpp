@@ -371,7 +371,7 @@ int main ()
                         }
 
                         // OPTION 6: MARK ATTENDANCE 
-                        else if (adminOption == "9")
+                        else if (adminOption == "6")
                         {
                             system("cls");
                             cout<<"Enter Member ID to mark attendance: ";
@@ -394,7 +394,7 @@ int main ()
                         }
 
                         // OPTION 7: VIEW ALL ATTENDANCE
-                        else if (adminOption == "10")
+                        else if (adminOption == "7")
                         {
                             system("cls");
                             cout<<" --- Attendance Report ---" <<endl;
@@ -410,7 +410,7 @@ int main ()
                         }
 
                         // OPTION 8: RECORD PAYMENT 
-                        else if (adminOption == "11")
+                        else if (adminOption == "8")
                         {
                             system("cls");
                             cout<<"Enter Member ID: ";
@@ -437,7 +437,7 @@ int main ()
                         }
 
                         // OPTION 9: VIEW PAYMENT RECORDS
-                        else if (adminOption == "12")
+                        else if (adminOption == "9")
                         {
                                system("cls");
                             cout<<"--- Payment Records ---" <<endl;
@@ -464,7 +464,7 @@ int main ()
                         }
 
                         // OPTION 10: SORT MEMBERS
-                        else if (adminOption == "13")
+                        else if (adminOption == "10")
                         {
                             system("cls");
                             cout<<" Sort by :" << endl;
@@ -616,6 +616,215 @@ int main ()
                 cout << "Too many failed attempts. Returning to main menu." << endl;
                 cout << "Press any key to continue..." << endl;
                 getch();
+            }
+        }
+
+        // MEMBER PORTAL
+        else if (userOption == "2")
+        {
+            while (true)
+            {
+                system("cls");
+                cout << "==================================================" << endl;
+                cout << "                   MEMBER PORTAL                  " << endl;
+                cout << "==================================================" << endl;
+                cout << "1.  Register" << endl;
+                cout << "2.  View My Profile" << endl;
+                cout << "3.  Update My Profile" << endl;
+                cout << "4.  View Available Plans" << endl;
+                cout << "5.  Select Plan" << endl;
+                cout << "6.  Make Payment" << endl;
+                cout << "7.  View Payment Status" << endl;
+                cout << "8. View My Attendance" << endl;
+                cout << "9. Mark My Attendance" << endl;
+                cout << "10. View My History" << endl;
+                cout << "11. Back to Main Menu" << endl;
+                cout << "Choose Option: ";
+                string memOption;
+                cin >> memOption;
+                cin.ignore();
+
+                // MEMBER OPTION 1: REGISTER
+                if (memOption == "1")
+                {
+                    if (index >= totalMembers)
+                    {
+                        cout << "Registration full. Please try later." << endl;
+                    }
+                    else
+                    {
+                        system("cls");
+                        cout << " ----- Member Registration -----" << endl;
+                        cout << "Enter Name: ";
+                        getline(cin, nameArray[index]);
+                        cout << "Enter age: ";
+                        cin >> ageArray[index];
+                        cin.ignore();
+                        cout << "Enter Gender: ";
+                        getline(cin, genderArray[index]);
+                        cout << "Enter Contact: ";
+                        getline(cin, contactArray[index]);
+
+                        planArray[index] = "None";
+                        feeArray[index] = 0;
+                        feePaidArray[index] = false;
+                        attendanceArray[index] = 0;
+                        trainerArray[index] = "Not Assigned";
+                        workoutArray[index] = "No Workout Plan";
+
+                        historyArray[historyIndex % 20] = "New member registered: " + nameArray[index];
+                        historyIndex++;
+
+                        cout<<"Registration successful !" << endl;
+                        cout<<"Your Member ID is: " << index << endl;
+                        cout<<"Please remember this ID for all future actions. " << endl;
+                        index++;
+                    }
+                }
+
+                // MEMBER OPTION 2: VIEW MY PROFILE
+                else if (memOption == "2")
+                {
+                    system("cls");
+                    cout << "Enter your Member ID : ";
+                    int id;
+                    cin >> id;
+                    cin.ignore();
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else
+                    {
+                         cout<<"--- Your Profile ---" <<endl;
+                        cout<<"ID        : " << id <<endl;
+                        cout<<"Name      : " << nameArray[id] <<endl;
+                        cout<<"Age       : " << ageArray[id] <<endl;
+                        cout<<"Gender    : " << genderArray[id] <<endl;
+                        cout<<"Contact   : " << contactArray[id] <<endl;
+                        cout<<"Plan      : " << planArray[id] <<endl;
+                        cout<<"Fee       : Rs." << feeArray[id] <<endl;
+                        cout<<"Paid      : " << (feePaidArray[id] ? "Yes" : "No") <<endl;
+                        cout<<"Attendance: " << attendanceArray[id] << " days" <<endl;
+                        cout<<"Trainer   : " << trainerArray[id] <<endl;
+                        cout<<"Workout   : " << workoutArray[id] <<endl;
+                    }
+                }
+
+                // MEMBER OPTION 3: UPDATE MY PROFILE
+                else if (memOption == "3")
+                {
+                    system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore();
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else
+                    {
+                        cout << "1 Update Name" << endl;
+                        cout << "2 Update Contact" << endl;
+                        cout << "Choose: ";
+                        string ch;
+                        cin >> ch;
+                        cin.ignore();
+
+                        if (ch == "1")
+                        {
+                            cout << "Enter new name: ";
+                            getline(cin, nameArray[id]);
+                            historyArray[historyIndex % 20] = nameArray[id] + " updated name";
+                            historyIndex++;
+                            cout << "Name updated." << endl;
+                        }
+                        else if (ch == "2")
+                        {
+                            cout << "Enter new contact: ";
+                            getline(cin, contactArray[id]);
+                            historyArray[historyIndex % 20] = nameArray[id] + " updated contact";
+                            historyIndex++;
+                            cout << "Contact updated." << endl;
+                        }
+                        else
+                        {
+                            cout << "Invalid choice." << endl;
+                        }
+                    }
+                }
+
+                // MEMBER OPTION 4: VIEW AVAILABLE PLANS
+                else if (memOption == "4")
+                {
+                    system("cls");
+                    cout << "--- Available Membership Plans ---" << endl;
+                    for (int p = 0; p < planIndex; p++)
+                    {
+                        cout << p + 1 << " " << planNameArray[p]
+                             << "  Rs." << planFeeArray[p]
+                             << "  (" << planDurationArray[p] << " days)" << endl;
+                    }
+                }
+
+                // MEMBER OPTION 5: SELECT PLAN
+                else if (memOption == "5")
+                {
+                    system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore();
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." <<endl;
+                    }
+                    else if (planArray[id] != "None")
+                    {
+                        cout << "You already have a plan." << endl;
+                    }
+                    else 
+                    {
+                        cout << "Available Plans: " << endl;
+                        for (int p = 0; p < planIndex; p++)
+                        {
+                            cout << p + 1 << " " << planNameArray[p]
+                                 << "  Rs." << planFeeArray[p] << endl;
+                        }
+                        cout << "Select plan (1 to " << planIndex << ") : ";
+                        int pc;
+                        cin >> pc;
+                        cin.ignore();
+
+                        if (pc<1 || pc>planIndex)
+                        {
+                            cout<<"Invalid Plan choice."<<endl;
+                        }
+                        else
+                        {
+                            planArray[id] = planNameArray[pc-1];
+                            feeArray[id] = planFeeArray[pc-1];
+                            feePaidArray[id] = false;
+                            historyArray[historyIndex%20] = nameArray[id] + " selected plan " + planArray[id];
+                            historyIndex++;
+                            cout<<" Plan selected. Please make payment to activate."<<endl;
+                        }
+                    }
+                }
+
+                // MEMBER OPTION 6: MAKE PAYMENT
+                else if (memOption == "6")
+                {
+                    system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore();
+                }
             }
         }
     }
