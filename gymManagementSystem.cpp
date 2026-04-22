@@ -824,8 +824,184 @@ int main ()
                     int id;
                     cin >> id;
                     cin.ignore();
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else if (planArray[id] == "None")
+                    {
+                        cout << "You have no plan selected. Please select a plan first." << endl;
+                    }
+                    else if (feePaidArray[id] == true)
+                    {
+                        cout << "Your fee is already paid. Thank you!" << endl;
+                    }
+                    else
+                    {
+                        feePaidArray[id] = true;
+                        historyArray[historyIndex % 20] = nameArray[id] + " made payment";
+                        historyIndex++;
+                        cout << "Payment of Rs." << feeArray[id] << " received. Thank you, " << nameArray[id] << "!" << endl;
+                    }
                 }
-            }
+
+                // MEMBER OPTION 7: VIEW PAYMENT STATUS
+                else if (memOption == "7")
+                {
+                    system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore();
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else 
+                    {
+                        cout << "Plan   : " << planArray[id] << endl;
+                        cout << "Fee    : Rs." << feeArray[id] << endl;
+                        cout << "Status : " << (feePaidArray[id] ? "PAID" : "UNPAID") << endl;
+                    }
+                }
+
+                // MEMBER OPTION 8: VIEW MY ATTENDANCE
+                else if (memOption == "8")
+                {
+                   system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore(); 
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else 
+                    {
+                        cout << "Dear " << nameArray[id] << ", you have attended." << attendanceArray[id] << " days." << endl;
+                    }
+                }
+
+                // MEMBER OPTION 9: MARK MY ATTENDANCE
+                else if (memOption == "9")
+                {
+                     system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore(); 
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else if (feePaidArray[id] == false)
+                    {
+                        cout << "Cannot mark attendance. Please pay your fee first." << endl;
+                    }
+                    else 
+                    {
+                        attendanceArray[id]++;
+                        historyArray[historyIndex % 20] = nameArray[id] + " checked in gym";
+                        historyIndex++;
+                        cout << "Attendance recorded! Total days : " << attendanceArray[id] << endl;
+                    }
+                }
+
+                // MEMBER OPTION 10: VIEW MY HISTORY
+                else if (memOption == "10")
+                {
+                     system("cls");
+                    cout << "Enter your Member ID: ";
+                    int id;
+                    cin >> id;
+                    cin.ignore(); 
+
+                    if (id < 0 || id >= index)
+                    {
+                        cout << "Invalid Member ID." << endl;
+                    }
+                    else
+                    {
+                        cout << " --- Your Activity History ---" << endl;
+                        int show = historyIndex;
+                        if (show > 20)
+                            show = 20;
+
+                        int foundCount = 0;
+                        for (int i=0; i<show; i++)
+                        {
+                            // Check if history entry contains member's name 
+                            string myName = nameArray[id];
+                            bool nameFound = false;
+                            // Search for name in history string
+                            int hLen = historyArray[i].length();
+                            int nLen = myName.length();
+                            for (int k = 0; k <= hLen - nLen; k++)
+                            {
+                                bool match = true;
+                                for (int m = 0; m < nLen; m++)
+                                {
+                                    if (historyArray[i][k + m] != myName[m])
+                                    {
+                                        match = false;
+                                        break;
+                                    }
+                                }
+                                if (match == true)
+                                {
+                                    nameFound = true;
+                                    break;
+                                }
+                            }
+                            if (nameFound == true)
+                            {
+                                cout << "- " << historyArray[i] << endl;
+                                foundCount++;
+                            }
+                        }
+                        if (foundCount == 0)
+                        {
+                            cout << "No activity history found for you yet." << endl;
+                        }    
+                    }
+                }
+
+                // MEMBER OPTION 11: BACK
+                else if (memOption == "11")
+                {
+                    cout << "Returning to main menu..." << endl;
+                    break;
+                }
+                else
+                {
+                    cout << "Wrong option selected." << endl;
+                }
+
+                cout << endl << "Press any key to continue..." << endl;
+                getch();
+
+            } // end member while loop
         }
-    }
+
+        // EXIT
+        else if (userOption == "3")
+        {
+            break;
+        }
+        else
+        {
+            cout << "You entered wrong option." << endl;
+            cout << "Press any key to continue..." << endl;
+            getch();
+        }
+    } // end main while loop
+
+    cout << endl << "Thank you for using Gym Management System!" << endl;
+
+    return 0;
 }
